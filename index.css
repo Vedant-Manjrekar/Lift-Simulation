@@ -1,0 +1,95 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.main {
+  border: 1px solid red;
+  width: stretch;
+  margin: 0 1rem;
+  display: grid;
+  position: absolute;
+  margin: 3vw;
+}
+
+.floor_body > .floor {
+  border: 1px solid black;
+  margin-left: 2rem;
+  height: 15vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: right;
+}
+
+.floor_number {
+  margin-right: 1rem;
+}
+
+.floor_body {
+  display: flex;
+  align-items: center;
+  width: 92vw;
+}
+
+.input_dialogue {
+  display: grid;
+  position: fixed;
+  margin: auto;
+  left: 10vw;
+  right: 10vw;
+  padding: 2rem;
+  gap: 1;
+  width: stretch;
+  height: 50vh;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid red;
+  z-index: 2;
+  top: 0;
+  bottom: 0;
+}
+
+.inputs {
+  width: 40vw;
+  height: 10vh;
+  font-size: 2rem;
+  text-align: center;
+}
+
+#generate_btn {
+  height: 8vh;
+  font-size: 1.5rem;
+  background-color: lightgoldenrodyellow;
+  border: 0.5px solid black;
+}
+
+.lift {
+  height: 10vh;
+  width: max-content;
+  padding: 0.5rem 2rem;
+  background-color: lightpink;
+  position: relative;
+  transition: 1.5s ease-in-out;
+}
+
+.lift_box {
+  display: flex;
+  justify-content: space-evenly;
+  position: absolute;
+  align-items: end;
+  width: 95vw;
+  gap: 1rem;
+  /* height: stretch; */
+  /* height: 100%; */
+  border: 3px solid green;
+  z-index: -1;
+}
+
+.btns {
+  display: flex;
+  flex-direction: column;
+  width: 5vw;
+  gap: 1vh;
+}
