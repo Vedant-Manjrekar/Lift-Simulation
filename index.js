@@ -37,7 +37,7 @@ function up(index_val) {
 
   const how_much_move = `${move * (index_val - 1)}`;
 
-  document.getElementById(closest).style.top = `-${how_much_move}px`;
+  document.getElementById("lift_0").style.top = `-${how_much_move}px`;
 }
 
 // ! passing number in function as args and based on the number move lift.
@@ -54,9 +54,7 @@ function down(index) {
 
   const how_much_move = `${move * (index - 1)}`;
 
-  document.getElementById(
-    `lift_${Math.ceil(Math.random() * index)}`
-  ).style.top = `-${how_much_move}px`;
+  document.getElementById("lift_0").style.top = `-${how_much_move}px`;
 
   console.log(move);
 }
