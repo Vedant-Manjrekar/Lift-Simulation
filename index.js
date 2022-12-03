@@ -116,18 +116,17 @@ generate_btn.addEventListener("click", () => {
                   <div class="btns">
 
                   <button 
-                  id="floor_btn_up_${index}" 
-                  class="buttonUp" 
-                  onclick="up(${index})">
-
-                  </button>
-
-                  <button 
                   id="floor_btn_down_${index}" 
                   class="buttonDown"
                   onclick="down(${index})">
-
                   </button>
+                  
+                  <button 
+                  id="floor_btn_up_${index}" 
+                  class="buttonUp" 
+                  onclick="up(${index})">
+                  </button>
+                  
                   </div>
 
                   <div class="floor floor-${index}" id="floor_${index}"> <p class="floor_number">Floor ${index}</p> </div>
