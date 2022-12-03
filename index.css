@@ -1,36 +1,59 @@
+@import url("https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&family=Cairo+Play&family=Covered+By+Your+Grace&family=Fragment+Mono&family=Heebo:wght@800&family=Inter:wght@700&family=Overpass:wght@400;700&family=PT+Sans:wght@700&family=Quantico:ital,wght@1,700&family=Rajdhani:wght@700&family=Raleway&family=Roboto:wght@300&display=swap");
+
 * {
   margin: 0;
   padding: 0;
 }
 
+.welcome {
+  font-family: "PT Sans";
+}
+
 .main {
-  border: 1px solid red;
   width: stretch;
-  margin: 0 1rem;
+  margin: auto;
+  right: 0;
   display: grid;
   position: absolute;
-  margin: 3vw;
+  width: 100vw;
+  transition: 1.5s ease-in-out;
+  background: linear-gradient(
+    to right,
+    rgba(173, 174, 179, 0.6),
+    rgba(242, 240, 244, 0.6)
+  );
+  /* border: 1px solid red; */
 }
 
 .floor_body > .floor {
   border: 1px solid black;
-  margin-left: 2rem;
+  border: 1px solid #71797e;
+  margin-left: 1vw;
   height: 15vh;
   width: 100%;
   display: flex;
   align-items: center;
   gap: 0.5rem;
   justify-content: right;
+  background: linear-gradient(to right, #ada996, #f2f2f2, #dbdbdb, #eaeaea);
+  background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+  border-bottom-color: #71797e;
+  border-top-color: #71797e;
+  margin-right: 2vw;
 }
 
 .floor_number {
   margin-right: 1rem;
+  font-family: "Rajdhani";
+  color: white;
+  position: absolute;
 }
 
 .floor_body {
-  display: flex;
+  display: grid;
+  grid-template-columns: 10vw 1fr;
   align-items: center;
-  width: 92vw;
+  width: 99vw;
 }
 
 .input_dialogue {
@@ -45,51 +68,96 @@
   height: 50vh;
   justify-content: center;
   align-items: center;
-  border: 1px solid red;
+  /* border: 1px solid red; */
+  box-shadow: 2px 7px 43px 0px rgba(0, 0, 0, 0.75);
+  border-radius: 12px;
   z-index: 2;
   top: 0;
   bottom: 0;
 }
 
 .inputs {
-  width: 40vw;
+  width: 100%;
   height: 10vh;
   font-size: 2rem;
   text-align: center;
+
+  border: 0.8px solid black;
+  border-radius: 12px;
+  color: black;
 }
 
 #generate_btn {
   height: 8vh;
   font-size: 1.5rem;
   background-color: lightgoldenrodyellow;
-  border: 0.5px solid black;
+  border-radius: 12px;
+  border: none;
+  color: white;
+  background: linear-gradient(to right, #fdc830, #f37335);
+  background: linear-gradient(to right, #ffefba, #ffffff);
+  background: linear-gradient(to right, #fceabb, #f8b500);
 }
 
 .lift {
+  display: block;
   height: 10vh;
-  width: max-content;
+  width: 1vw;
   padding: 0.5rem 2rem;
-  background-color: lightpink;
   position: relative;
   transition: 1.5s ease-in-out;
+  background-image: url("./assets/Lift.png");
+  background-position: center;
+  background-size: cover;
 }
 
 .lift_box {
   display: flex;
+  transition: 1.5s ease-in-out;
   justify-content: space-evenly;
   position: absolute;
   align-items: end;
-  width: 95vw;
+  width: 100vw;
   gap: 1rem;
-  /* height: stretch; */
-  /* height: 100%; */
-  border: 3px solid green;
+  right: 0;
+  margin: auto;
+  /* border: 3px solid green; */
   z-index: -1;
+  z-index: 1;
 }
 
 .btns {
   display: flex;
-  flex-direction: column;
-  width: 5vw;
+  justify-content: center;
+  width: 100%;
   gap: 1vh;
+  z-index: 2;
+}
+
+.steel-wall {
+  background-image: url("./assets/steel-walll.jpeg");
+}
+
+.buttonUp {
+  width: 3vw;
+  height: 3vw;
+  background-image: url("./assets/up-arrow.png");
+  background-position: center;
+  border: none;
+  background-size: cover;
+  background-color: gainsboro;
+  border: 0.8 px solid black;
+  border-radius: 12%;
+  border: 0.8px solid black;
+}
+
+.buttonDown {
+  width: 3vw;
+  height: 3vw;
+  background-image: url("./assets/down-arrow.png");
+  background-position: center;
+  background-size: cover;
+  background-color: gainsboro;
+  border: 0.8px solid black;
+  border-radius: 12%;
 }

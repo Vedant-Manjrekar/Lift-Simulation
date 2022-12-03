@@ -5,39 +5,43 @@ const lift_inp = document.getElementById("lift_inp");
 const main = document.getElementById("main");
 const lift_box = document.getElementById("lift_boxs");
 const lift_box2 = document.getElementById("lift_boxs");
+const steel_wall = document.getElementById("steel_wall");
+const floor_ = document.getElementById("floor_body");
 
-let state = {
-  // no_of_lifts: 0,
-};
+// * Lift's state.
+let state = {};
 
 console.log(state);
 
 function up(index_val) {
   console.log("up", index_val);
 
+  // * size of the div with all the floors.
   const screen_size = main.offsetHeight;
 
-  state[`lift_0`] = index_val;
+  const new_array = [];
 
-  const closest = Object.keys(state).reduce((prev, current) => {
-    return Math.abs(state[current] - index_val) <
-      Math.abs(state[prev] - index_val)
-      ? current
-      : prev;
-  }, 0);
+  // * iterating the state of lifts, subtracting the input from up() function and storing it into an array.
+  Object.keys(state).forEach((i) => {
+    new_array.push(Math.abs(state[i] - index_val));
+  });
 
-  console.log(closest);
+  console.log("Values after removing input", new_array);
 
-  // Object.keys(state).forEach((i) => console.log(`${i}: ${state[i]}`));
+  // * first found index value, of the smallest difference in the array
+  const closest = new_array.indexOf(Math.min(...new_array));
 
-  // console.log(state);
+  // * modifying the lift's state with the lift with smallest difference btween itself and floor.
+  state[`lift_${closest}`] = index_val;
+
+  console.log(state);
 
   // // * how much to move.
   const move = screen_size / Number(floors_inp.value);
 
   const how_much_move = `${move * (index_val - 1)}`;
 
-  document.getElementById("lift_0").style.top = `-${how_much_move}px`;
+  document.getElementById(`lift_${closest}`).style.top = `-${how_much_move}px`;
 }
 
 // ! passing number in function as args and based on the number move lift.
@@ -47,14 +51,33 @@ function down(index) {
 
   console.log("down", index);
 
+  // * size of the div with all the floors.
   const screen_size = main.offsetHeight;
+
+  const new_array = [];
+
+  // * iterating the state of lifts, subtracting the input from up() function and storing it into an array.
+  Object.keys(state).forEach((i) => {
+    new_array.push(Math.abs(state[i] - index));
+  });
+
+  console.log("Values after removing input", new_array);
+
+  // * first found index value, of the smallest difference in the array
+  const closest = new_array.indexOf(Math.min(...new_array));
+
+  // * modifying the lift's state with the lift with smallest difference btween itself and floor.
+  state[`lift_${closest}`] = index;
+  console.log(state);
 
   // * how much to move.
   const move = screen_size / Number(floors_inp.value);
 
+  // * how much to move according to the lift button pressed.
   const how_much_move = `${move * (index - 1)}`;
 
-  document.getElementById("lift_0").style.top = `-${how_much_move}px`;
+  // * appying css to the lift which is closest to the floor user clicked for.
+  document.getElementById(`lift_${closest}`).style.top = `-${how_much_move}px`;
 
   console.log(move);
 }
@@ -65,8 +88,9 @@ generate_btn.addEventListener("click", () => {
   const floor_value = floors_inp.value;
   const lift_value = lift_inp.value;
 
+  // * Initialising all the lifts in lift state as 1.
   for (let index = 0; index < lift_value; index++) {
-    state[`lift_${index}`] = 0;
+    state[`lift_${index}`] = 1;
   }
 
   console.log(state);
@@ -84,28 +108,39 @@ generate_btn.addEventListener("click", () => {
   let new_lifts = "";
 
   for (let index = floor_value; index > 0; index--) {
-    let minus = index - 1;
+    // * code for floor.
     let floor = `
+
                 <div class="floor_body" id="floor_body_${index}">
 
                   <div class="btns">
 
-                  <button id="floor_btn_up_${index}" class="floor" 
-                  onclick="up(${index})">Up</button>
+                  <button 
+                  id="floor_btn_up_${index}" 
+                  class="buttonUp" 
+                  onclick="up(${index})">
 
-                  <button id="floor_btn_down_${index}" 
-                  onclick="down(${index})">Down</button>
+                  </button>
+
+                  <button 
+                  id="floor_btn_down_${index}" 
+                  class="buttonDown"
+                  onclick="down(${index})">
+
+                  </button>
                   </div>
 
                   <div class="floor floor-${index}" id="floor_${index}"> <p class="floor_number">Floor ${index}</p> </div>
                 
                 </div>
+
             `;
     new_floors = new_floors + floor;
   }
 
   for (let index = 0; index < lift_value; index++) {
-    let lift = `<div class="lift" id="lift_${index}">lift</div>`;
+    // * code for lift.
+    let lift = `<div class="lift" id="lift_${index}"></div>`;
 
     new_lifts = new_lifts + lift;
   }
@@ -142,6 +177,8 @@ generate_btn.addEventListener("click", () => {
 
   // * replaces old lift_box with the new one (lift box with updated styles), as the new one does not rendering in the DOM.
   main.replaceChild(lift_box, old_lift_box);
+
+  steel_wall.width = floor_.offsetWidth;
 });
 
 console.log(lift_box.innerHTML != null);
