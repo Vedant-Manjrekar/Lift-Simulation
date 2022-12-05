@@ -7,6 +7,7 @@ const lift_box = document.getElementById("lift_boxs");
 const lift_box2 = document.getElementById("lift_boxs");
 const steel_wall = document.getElementById("steel_wall");
 const floor_ = document.getElementById("floor_body");
+const door = document.getElementById("door");
 
 // * Lift's state.
 let state = {};
@@ -28,8 +29,10 @@ function up(index_val) {
 
   console.log("Values after removing input", new_array);
 
+  const smallest_difference = Math.min(...new_array);
+
   // * first found index value, of the smallest difference in the array
-  const closest = new_array.indexOf(Math.min(...new_array));
+  const closest = new_array.indexOf(smallest_difference);
 
   // * modifying the lift's state with the lift with smallest difference btween itself and floor.
   state[`lift_${closest}`] = index_val;
@@ -40,6 +43,26 @@ function up(index_val) {
   const move = screen_size / Number(floors_inp.value);
 
   const how_much_move = `${move * (index_val - 1)}`;
+
+  const timeout = smallest_difference * 2;
+
+  let busy;
+
+  document.getElementById(
+    `lift_${closest}`
+  ).style.transition = `${timeout}s ease-out`;
+
+  setTimeout(() => {
+    document.getElementById(`lift_${closest}`).firstElementChild.style.opacity =
+      "1";
+
+    const top = document.getElementById(`lift_${closest}`).offsetTop;
+  }, timeout * 1000);
+
+  setTimeout(() => {
+    document.getElementById(`lift_${closest}`).firstElementChild.style.opacity =
+      "0";
+  }, timeout * 2.5 * 1000);
 
   document.getElementById(`lift_${closest}`).style.top = `-${how_much_move}px`;
 }
@@ -63,8 +86,11 @@ function down(index) {
 
   console.log("Values after removing input", new_array);
 
+  // * smallest relative distance of lifts from floor
+  const smallest_difference = Math.min(...new_array);
+
   // * first found index value, of the smallest difference in the array
-  const closest = new_array.indexOf(Math.min(...new_array));
+  const closest = new_array.indexOf(smallest_difference);
 
   // * modifying the lift's state with the lift with smallest difference btween itself and floor.
   state[`lift_${closest}`] = index;
@@ -75,6 +101,28 @@ function down(index) {
 
   // * how much to move according to the lift button pressed.
   const how_much_move = `${move * (index - 1)}`;
+
+  const timeout = smallest_difference * 2;
+  console.log(timeout);
+
+  document.getElementById(
+    `lift_${closest}`
+  ).style.transition = `${timeout}s ease-out`;
+
+  setTimeout(() => {
+    document.getElementById(`lift_${closest}`).firstElementChild.style.opacity =
+      "1";
+  }, timeout * 1000);
+
+  setTimeout(() => {
+    document.getElementById(`lift_${closest}`).firstElementChild.style.opacity =
+      "0";
+    ("0");
+
+    document
+      .getElementById(`lift_${closest}`)
+      .firstElementChild.classList.add("door1");
+  }, timeout * 2.5 * 1000);
 
   // * appying css to the lift which is closest to the floor user clicked for.
   document.getElementById(`lift_${closest}`).style.top = `-${how_much_move}px`;
@@ -126,7 +174,7 @@ generate_btn.addEventListener("click", () => {
                   class="buttonUp" 
                   onclick="up(${index})">
                   </button>
-                  
+
                   </div>
 
                   <div class="floor floor-${index}" id="floor_${index}"> <p class="floor_number">Floor ${index}</p> </div>
@@ -139,7 +187,9 @@ generate_btn.addEventListener("click", () => {
 
   for (let index = 0; index < lift_value; index++) {
     // * code for lift.
-    let lift = `<div class="lift" id="lift_${index}"></div>`;
+    let lift = `<div class="lift" id="lift_${index}">
+      <div id="door" class="door"></div>
+    </div>`;
 
     new_lifts = new_lifts + lift;
   }
@@ -176,8 +226,6 @@ generate_btn.addEventListener("click", () => {
 
   // * replaces old lift_box with the new one (lift box with updated styles), as the new one does not rendering in the DOM.
   main.replaceChild(lift_box, old_lift_box);
-
-  steel_wall.width = floor_.offsetWidth;
 });
 
 console.log(lift_box.innerHTML != null);

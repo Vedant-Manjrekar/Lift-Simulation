@@ -100,15 +100,16 @@
 }
 
 .lift {
-  display: block;
-  height: 10vh;
+  display: flex;
+  height: 10.5vh;
   width: 1vw;
   padding: 0.5rem 2rem;
   position: relative;
-  transition: 1.5s ease-in-out;
   background-image: url("./assets/Lift.png");
   background-position: center;
   background-size: cover;
+  align-items: flex-start;
+  justify-content: center;
 }
 
 .lift_box {
@@ -124,6 +125,25 @@
   /* border: 3px solid green; */
   z-index: -1;
   z-index: 1;
+}
+
+#door {
+  transition: 2.5s ease-out;
+}
+
+.door {
+  height: 11vh;
+  position: absolute;
+  background-color: black;
+  width: 6.6vw;
+  transition: 2.5s ease-in-out;
+  bottom: 0;
+  opacity: 0;
+}
+
+.disabledDiv {
+  pointer-events: none;
+  opacity: 0.4;
 }
 
 .btns {
