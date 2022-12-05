@@ -14,28 +14,39 @@ let state = {};
 
 console.log(state);
 
+let new_array = [];
+
+// // UP Function.
 function up(index_val) {
   console.log("up", index_val);
 
   // * size of the div with all the floors.
   const screen_size = main.offsetHeight;
 
-  const new_array = [];
-
   // * iterating the state of lifts, subtracting the input from up() function and storing it into an array.
-  Object.keys(state).forEach((i) => {
-    new_array.push(Math.abs(state[i] - index_val));
+  Object.keys(state).forEach((i, index) => {
+    console.log(state[i].available);
+    if (state[i].available === true) {
+      new_array.splice(index, 1, Math.abs(state[i].value - index_val));
+    } else {
+      new_array.splice(index, 1, 100);
+    }
   });
 
   console.log("Values after removing input", new_array);
 
   const smallest_difference = Math.min(...new_array);
+  console.log(smallest_difference);
 
   // * first found index value, of the smallest difference in the array
   const closest = new_array.indexOf(smallest_difference);
 
+  // * how long should the moving time of lift be so that, it will take 2s to reach each floor.
+  const timeout = smallest_difference * 2;
+
   // * modifying the lift's state with the lift with smallest difference btween itself and floor.
-  state[`lift_${closest}`] = index_val;
+  state[`lift_${closest}`].value = index_val;
+  state[`lift_${closest}`].available = false;
 
   console.log(state);
 
@@ -44,32 +55,41 @@ function up(index_val) {
 
   const how_much_move = `${move * (index_val - 1)}`;
 
-  const timeout = smallest_difference * 2;
-
-  let busy;
-
-  document.getElementById(
-    `lift_${closest}`
-  ).style.transition = `${timeout}s ease-out`;
-
+  // * function determining after how long should the lift doors open.
   setTimeout(() => {
     document.getElementById(`lift_${closest}`).firstElementChild.style.opacity =
       "1";
-
-    const top = document.getElementById(`lift_${closest}`).offsetTop;
   }, timeout * 1000);
 
+  // * function determining after how long should the lift doors close.
   setTimeout(() => {
     document.getElementById(`lift_${closest}`).firstElementChild.style.opacity =
       "0";
+    console.log("on");
+    state[`lift_${closest}`].available = true;
+    // state[`lift_${closest}`].value = index_val;
   }, timeout * 2.5 * 1000);
 
+  // setTimeout(() => {}, smallest_difference * 1000);
+
+  // * code responsible for moving the nearest lift.
   document.getElementById(`lift_${closest}`).style.top = `-${how_much_move}px`;
+
+  console.log(state);
+
+  // * code which sets the speed of lift.
+  document.getElementById(
+    `lift_${closest}`
+  ).style.transition = `all ${timeout}s ease-out`;
 }
 
 // ! passing number in function as args and based on the number move lift.
 
+// // DOWN Function.
 function down(index) {
+  if (index == undefined) {
+    alert("wait");
+  }
   console.log("click");
 
   console.log("down", index);
@@ -77,11 +97,13 @@ function down(index) {
   // * size of the div with all the floors.
   const screen_size = main.offsetHeight;
 
-  const new_array = [];
-
   // * iterating the state of lifts, subtracting the input from up() function and storing it into an array.
-  Object.keys(state).forEach((i) => {
-    new_array.push(Math.abs(state[i] - index));
+  Object.keys(state).forEach((i, index) => {
+    if (state[i].available === true) {
+      new_array.splice(index, 1, Math.abs(state[i].value - index));
+    } else {
+      new_array.splice(index, 1, 100);
+    }
   });
 
   console.log("Values after removing input", new_array);
@@ -93,7 +115,7 @@ function down(index) {
   const closest = new_array.indexOf(smallest_difference);
 
   // * modifying the lift's state with the lift with smallest difference btween itself and floor.
-  state[`lift_${closest}`] = index;
+  state[`lift_${closest}`].value = index;
   console.log(state);
 
   // * how much to move.
@@ -105,9 +127,9 @@ function down(index) {
   const timeout = smallest_difference * 2;
   console.log(timeout);
 
-  document.getElementById(
-    `lift_${closest}`
-  ).style.transition = `${timeout}s ease-out`;
+  // * modifying the lift's state with the lift with smallest difference btween itself and floor.
+  state[`lift_${closest}`].value = index;
+  state[`lift_${closest}`].available = false;
 
   setTimeout(() => {
     document.getElementById(`lift_${closest}`).firstElementChild.style.opacity =
@@ -119,10 +141,12 @@ function down(index) {
       "0";
     ("0");
 
-    document
-      .getElementById(`lift_${closest}`)
-      .firstElementChild.classList.add("door1");
+    state[`lift_${closest}`].available = true;
   }, timeout * 2.5 * 1000);
+
+  document.getElementById(
+    `lift_${closest}`
+  ).style.transition = `${timeout}s ease-out`;
 
   // * appying css to the lift which is closest to the floor user clicked for.
   document.getElementById(`lift_${closest}`).style.top = `-${how_much_move}px`;
@@ -138,7 +162,8 @@ generate_btn.addEventListener("click", () => {
 
   // * Initialising all the lifts in lift state as 1.
   for (let index = 0; index < lift_value; index++) {
-    state[`lift_${index}`] = 1;
+    state[`lift_${index}`] = { value: 1, available: true };
+    new_array.push(0);
   }
 
   console.log(state);
@@ -220,12 +245,10 @@ generate_btn.addEventListener("click", () => {
 
   lift_box.style.width = `${main.offsetWidth}px`;
 
-  lift_box.style.height = `${main.offsetHeight - 5}px`;
+  lift_box.style.height = `${main.offsetHeight}px`;
 
   const old_lift_box = document.getElementById("main").children[1];
 
   // * replaces old lift_box with the new one (lift box with updated styles), as the new one does not rendering in the DOM.
   main.replaceChild(lift_box, old_lift_box);
 });
-
-console.log(lift_box.innerHTML != null);

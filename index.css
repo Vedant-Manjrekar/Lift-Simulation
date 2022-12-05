@@ -102,19 +102,23 @@
 .lift {
   display: flex;
   height: 10.5vh;
-  width: 1vw;
+  width: 1.5vw;
   padding: 0.5rem 2rem;
   position: relative;
+  /* border: 5px solid black; */
+  /* background-color: #dbdbdb; */
   background-image: url("./assets/Lift.png");
   background-position: center;
-  background-size: cover;
+  background-size: contain;
   align-items: flex-start;
   justify-content: center;
+  /* transition: all 2s ease-out 0s; */
+  top: 0px;
 }
 
 .lift_box {
   display: flex;
-  transition: 1.5s ease-in-out;
+  transition: 3s ease-in-out;
   justify-content: space-evenly;
   position: absolute;
   align-items: end;
@@ -135,7 +139,7 @@
   height: 11vh;
   position: absolute;
   background-color: black;
-  width: 6.6vw;
+  width: 65%;
   transition: 2.5s ease-in-out;
   bottom: 0;
   opacity: 0;
