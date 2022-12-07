@@ -103,7 +103,7 @@
 
 .lift {
   display: flex;
-  height: 10.5vh;
+  height: 10vh;
   width: 1vh;
   padding: 0.5rem 2rem;
   position: relative;
@@ -133,13 +133,21 @@
 }
 
 .door {
-  height: 11vh;
+  height: 10.4vh;
   position: absolute;
   background-color: black;
-  width: 65%;
+  width: 49%;
   transition: 2.5s ease-in-out;
   bottom: 0;
-  opacity: 0;
+  width: 0;
+}
+
+.door1 {
+  right: 50%;
+}
+
+.door2 {
+  left: 50%;
 }
 
 .disabledDiv {
@@ -168,7 +176,20 @@
   background-size: cover;
   background-color: transparent;
   border-radius: 12%;
+  transition: 0.1s ease-in-out;
   /* border: 0.8px solid black; */
+}
+
+.buttonUp:hover {
+  filter: invert(12%) sepia(98%) saturate(5264%) hue-rotate(5deg)
+    brightness(114%) contrast(125%);
+  cursor: pointer;
+}
+
+.buttonDown:hover {
+  filter: invert(12%) sepia(98%) saturate(5264%) hue-rotate(5deg)
+    brightness(114%) contrast(125%);
+  cursor: pointer;
 }
 
 .buttonDown {
@@ -179,6 +200,7 @@
   background-size: cover;
   background-color: transparent;
   border: none;
+  transition: 0.1s ease-in-out;
   /* border: 0.8px solid black; */
   /* border-radius: 12%; */
 }

@@ -57,7 +57,6 @@ function is_vacant() {
 
   // * if "vacant_lift_array" has all "100"s in it, then tell user to wait and end the function there itself.
   if (vacant_lift_array.length === 0) {
-    alert("Please wait, currently all the lifts are busy.");
     return 1;
   }
 }
@@ -75,12 +74,10 @@ function up(index_val) {
 
   manage_lifts(state, index_val);
 
-  // * calls function aswell as checks for the condition.
+  // * calls the "isVacnat" function, aswell as checks for the condition.
   if (is_vacant() === 1) {
     return;
   }
-
-  // console.log(vacant_lift_array);
 
   console.log("Values after removing input", relative_diff_array);
 
@@ -101,27 +98,36 @@ function up(index_val) {
   // * setting lift's state to be unavailable (temporarily).
   state[`lift_${closest}`].available = false;
 
+  document.getElementById(`floor_btn_up_${index_val}`).style.filter =
+    "invert(12%) sepia(98%) saturate(5264%) hue-rotate(5deg) brightness(114%) contrast(125%)";
+
   console.log(state);
 
   // // * how much to move.
   const move = screen_size / Number(floors_inp.value);
+
+  console.log("move", move);
 
   // * how much to move according to the lift button pressed.
   const how_much_move = `${move * (index_val - 1)}`;
 
   // * function determining after how long should the lift doors open.
   setTimeout(() => {
-    document.getElementById(`lift_${closest}`).firstElementChild.style.opacity =
-      "1";
+    document.getElementById(`lift_${closest}`).children[0].style.width = "35%";
+    document.getElementById(`lift_${closest}`).children[1].style.width = "35%";
   }, timeout * 1000);
 
   // * function determining after how long should the lift doors close.
   setTimeout(() => {
-    document.getElementById(`lift_${closest}`).firstElementChild.style.opacity =
-      "0";
+    document.getElementById(`lift_${closest}`).children[1].style.width = "0%";
+    document.getElementById(`lift_${closest}`).children[0].style.width = "0%";
 
     // * changing the state of the lift to available as the doors are succesfully closed
     state[`lift_${closest}`].available = true;
+
+    document
+      .getElementById(`floor_btn_up_${index_val}`)
+      .style.removeProperty("filter");
   }, timeout * 1000 + 2.5 * 1000);
 
   // * code responsible for moving the nearest lift.
@@ -173,18 +179,25 @@ function down(index_val) {
   state[`lift_${closest}`].value = index_val;
   state[`lift_${closest}`].available = false;
 
+  document.getElementById(`floor_btn_down_${index_val}`).style.filter =
+    "invert(12%) sepia(98%) saturate(5264%) hue-rotate(5deg) brightness(114%) contrast(125%)";
+
   // * function determining after how long should the lift doors open.
   setTimeout(() => {
-    document.getElementById(`lift_${closest}`).firstElementChild.style.opacity =
-      "1";
+    document.getElementById(`lift_${closest}`).children[0].style.width = "35%";
+    document.getElementById(`lift_${closest}`).children[1].style.width = "35%";
   }, timeout * 1000);
 
   // * function determining after how long should the lift doors close.
   setTimeout(() => {
-    document.getElementById(`lift_${closest}`).firstElementChild.style.opacity =
-      "0";
+    document.getElementById(`lift_${closest}`).children[0].style.width = "0%";
+    document.getElementById(`lift_${closest}`).children[1].style.width = "0%";
 
     state[`lift_${closest}`].available = true;
+
+    document
+      .getElementById(`floor_btn_down_${index_val}`)
+      .style.removeProperty("filter");
   }, timeout * 1000 + 2.5 * 1000);
 
   // * code which sets the speed of lift.
@@ -261,7 +274,8 @@ generate_btn.addEventListener("click", () => {
   for (let index = 0; index < lift_value; index++) {
     // * code for lift.
     let lift = `<div class="lift" id="lift_${index}">
-      <div id="door" class="door"></div>
+      <div id="door" class="door door1"></div>
+      <div id="door" class="door door2"></div>
     </div>`;
 
     new_lifts = new_lifts + lift;
