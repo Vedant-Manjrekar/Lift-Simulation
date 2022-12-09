@@ -345,15 +345,15 @@ function generate() {
   // console.log(lift_box);
   // console.log(`${main.offsetHeight}px`);
 
-  // * setting width of div which contains all the lifts.
-  lift_box.style.width = `${main.offsetWidth}px`;
-
-  // * setting height of div which contains all the lifts.
-  lift_box.style.height = `${main.offsetHeight}px`;
-
   // * targeting "main" div which rendered initially.
   const old_lift_box = document.getElementById("main").children[1];
 
   // * replaces old lift_box with the new one (lift box with updated styles), as the new one does not rendering in the DOM.
   main.replaceChild(lift_box, old_lift_box);
+
+  // * setting width of div which contains all the lifts.
+  lift_box.style.width = `${main.offsetWidth}px`;
+
+  // * setting height of div which contains all the lifts.
+  lift_box.style.height = `${main.offsetHeight}px`;
 }
