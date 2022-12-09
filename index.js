@@ -241,15 +241,21 @@ function down(index_val) {
   document.getElementById(`lift_${closest}`).style.top = `-${how_much_move}px`;
 }
 
+let lift_box_height;
+let box_width;
+
+const resizeObserver = new ResizeObserver((entry) => {
+  console.log(entry);
+  lift_box.style.height = `${Math.round(entry[0].contentRect.height)}px`;
+  lift_box.style.width = `${entry[0].contentRect.width}px`;
+});
+
+resizeObserver.observe(main);
+
 // // Event listener for "Generate" button
 generate_btn.addEventListener("click", generate);
 
-console.log(document.activeElement);
-
 function generate() {
-  floors_inp.disabled = "true";
-  floors_inp.disabled = "true";
-
   // * Fetching no. of floors from user.
   const floor_value = floors_inp.value;
   const lift_value = lift_inp.value;
@@ -342,18 +348,20 @@ function generate() {
   last_floor_up_btn.style.display = "none";
 
   // console.log(main);
-  // console.log(lift_box);
+  console.log(lift_box);
   // console.log(`${main.offsetHeight}px`);
+
+  // // * setting height of div which contains all the lifts.
+  // console.log(lift_box_height);
+  // console.log(box_width);
+  // lift_box.style.height = `${lift_box_height}px`;
+
+  // // * setting width of div which contains all the lifts.
+  // lift_box.style.width = `${box_width}px`;
 
   // * targeting "main" div which rendered initially.
   const old_lift_box = document.getElementById("main").children[1];
 
   // * replaces old lift_box with the new one (lift box with updated styles), as the new one does not rendering in the DOM.
   main.replaceChild(lift_box, old_lift_box);
-
-  // * setting width of div which contains all the lifts.
-  lift_box.style.width = `${main.offsetWidth}px`;
-
-  // * setting height of div which contains all the lifts.
-  lift_box.style.height = `${main.offsetHeight}px`;
 }
