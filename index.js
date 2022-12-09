@@ -244,15 +244,11 @@ function down(index_val) {
 // // Event listener for "Generate" button
 generate_btn.addEventListener("click", generate);
 
-document.addEventListener("keyup", (e) => {
-  if (e.key === "Enter") {
-    generate();
-  }
-});
+console.log(document.activeElement);
 
 function generate() {
-  floors_inp.inputmode = "none";
-  floors_inp.inputmode = "none";
+  floors_inp.disabled = "true";
+  floors_inp.disabled = "true";
 
   // * Fetching no. of floors from user.
   const floor_value = floors_inp.value;
