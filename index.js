@@ -241,12 +241,12 @@ function down(index_val) {
   document.getElementById(`lift_${closest}`).style.top = `-${how_much_move}px`;
 }
 
-let lift_box_height;
-let box_width;
-
+// * creating observer instance to track change of height of main.
 const resizeObserver = new ResizeObserver((entry) => {
-  console.log(entry);
+  // // * setting height of div which contains all the lifts.
   lift_box.style.height = `${Math.round(entry[0].contentRect.height)}px`;
+
+  // // * setting width of div which contains all the lifts.
   lift_box.style.width = `${entry[0].contentRect.width}px`;
 });
 
@@ -346,18 +346,6 @@ function generate() {
 
   // * removing up button for last floor.
   last_floor_up_btn.style.display = "none";
-
-  // console.log(main);
-  console.log(lift_box);
-  // console.log(`${main.offsetHeight}px`);
-
-  // // * setting height of div which contains all the lifts.
-  // console.log(lift_box_height);
-  // console.log(box_width);
-  // lift_box.style.height = `${lift_box_height}px`;
-
-  // // * setting width of div which contains all the lifts.
-  // lift_box.style.width = `${box_width}px`;
 
   // * targeting "main" div which rendered initially.
   const old_lift_box = document.getElementById("main").children[1];
