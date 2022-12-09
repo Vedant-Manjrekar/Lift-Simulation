@@ -126,7 +126,9 @@ function up(index_val) {
     // * closing doors.
     document.getElementById(`lift_${closest}`).children[1].style.width = "0%";
     document.getElementById(`lift_${closest}`).children[0].style.width = "0%";
+  }, timeout * 1000 + 3500);
 
+  setTimeout(() => {
     // * changing the state of the lift to available as the doors are succesfully closed
     state[`lift_${closest}`].available = true;
 
@@ -142,7 +144,7 @@ function up(index_val) {
       }
       return;
     });
-  }, timeout * 1000 + 3500);
+  }, timeout * 1000 + 6000);
 
   // * code responsible for moving the nearest lift.
   document.getElementById(`lift_${closest}`).style.top = `-${how_much_move}px`;
@@ -216,8 +218,11 @@ function down(index_val) {
     document.getElementById(`lift_${closest}`).children[0].style.width = "0%";
     document.getElementById(`lift_${closest}`).children[1].style.width = "0%";
 
-    state[`lift_${closest}`].available = true;
     // console.log("Values after removing input", relative_diff_array);
+  }, timeout * 1000 + 3500);
+
+  setTimeout(() => {
+    state[`lift_${closest}`].available = true;
 
     Object.keys(floor_state).forEach((i) => {
       if (floor_state[i].needed == true && floor_state[i].direction == "down") {
@@ -230,7 +235,7 @@ function down(index_val) {
       }
       return;
     });
-  }, timeout * 1000 + 3500);
+  }, timeout * 1000 + 6000);
 
   // * code which sets the speed of lift.
   document.getElementById(
@@ -241,7 +246,7 @@ function down(index_val) {
   document.getElementById(`lift_${closest}`).style.top = `-${how_much_move}px`;
 }
 
-// * creating observer instance to track change of height of main.
+// * observer instance to track change of height of main.
 const resizeObserver = new ResizeObserver((entry) => {
   // // * setting height of div which contains all the lifts.
   lift_box.style.height = `${Math.round(entry[0].contentRect.height)}px`;
