@@ -242,7 +242,15 @@ function down(index_val) {
 }
 
 // // Event listener for "Generate" button
-generate_btn.addEventListener("click", () => {
+generate_btn.addEventListener("click", generate);
+
+document.addEventListener("keyup", (e) => {
+  if (e.key === "Enter") {
+    generate();
+  }
+});
+
+function generate() {
   floors_inp.inputmode = "none";
   floors_inp.inputmode = "none";
 
@@ -350,9 +358,6 @@ generate_btn.addEventListener("click", () => {
   // * targeting "main" div which rendered initially.
   const old_lift_box = document.getElementById("main").children[1];
 
-  setTimeout(() => {
-    main.replaceChild(lift_box, old_lift_box);
-  }, 100);
-
   // * replaces old lift_box with the new one (lift box with updated styles), as the new one does not rendering in the DOM.
-});
+  main.replaceChild(lift_box, old_lift_box);
+}
