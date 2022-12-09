@@ -228,6 +228,6 @@
 
   .input_dialogue {
     height: -webkit-fill-available;
-    margin: 0 2rem;
+    margin: 2rem 0;
   }
 }
