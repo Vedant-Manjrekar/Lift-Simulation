@@ -12,6 +12,9 @@ const door = document.getElementById("door");
 // // Lift's state.
 let state = {};
 
+// // state for floors.
+let floor_state = {};
+
 // // number which will forever be larger than the relative distances between lifts and floors.
 let biggest_diff;
 
@@ -42,49 +45,52 @@ function manage_lifts(state_of_lifts, floor_to_go) {
       // * replace the value in the "relative_diff_array" array which matches index of current lift state's index, with 100.
       // ? reason being, we call the lift based on who is nearest (smallest number difference) and if this lift becomes nearest while its doors are still opening and closing we dont want it to be called, hence a 100 for sake of a larger number.
       relative_diff_array.splice(index, 1, biggest_diff);
-      console.warn(biggest_diff);
     }
   });
 }
 
 // // function to check if there are vacant lifts available.
 function is_vacant() {
-  // * Figuring out whether all lifts are booked or not, by seeing if the "relative_diff_array" has all "100"s in it or not.
-  console.warn(biggest_diff);
+  // * Figuring out whether all lifts are booked or not, by seeing if the "relative_diff_array" has all "biggest_diff" in it or not.
   vacant_lift_array = relative_diff_array.filter(
     (elem) => elem != biggest_diff
   );
 
-  // * if "vacant_lift_array" has all "100"s in it, then tell user to wait and end the function there itself.
+  // * if "vacant_lift_array" has all "biggest_diff" in it, return 1.
   if (vacant_lift_array.length === 0) {
     return 1;
   }
 }
 
-// console.log(vacant_lift_array.length, relative_diff_array);
-
 // // UP Function.
 function up(index_val) {
-  console.log(vacant_lift_array.length);
+  // * button glows when clicked
+  document.getElementById(`floor_btn_up_${index_val}`).style.filter =
+    "invert(12%) sepia(98%) saturate(5264%) hue-rotate(5deg) brightness(114%) contrast(125%)";
 
-  console.log("up", index_val);
+  // * making "needed" false, since up() is called means lift is on its way and the need is going to be satisfied.
+  floor_state[`floor_${index_val}`].needed = false;
+  floor_state[`floor_${index_val}`].direction = "";
 
   // * size of the div with all the floors.
   const screen_size = main.offsetHeight;
 
+  // * function to mange lift's state.
   manage_lifts(state, index_val);
 
-  // * calls the "isVacnat" function, aswell as checks for the condition.
+  // * calls the "isVacant" function, aswell as checks for the condition.
   if (is_vacant() === 1) {
+    floor_state[`floor_${index_val}`] = {
+      needed: true,
+      value: index_val,
+      direction: "up",
+    };
+
     return;
   }
 
-  console.log("Values after removing input", relative_diff_array);
-
   // * smallest relative distance of lifts from floor
   const smallest_difference = Math.min(...relative_diff_array);
-
-  // console.log(smallest_difference);
 
   // * first found index value, of the smallest difference in the array
   const closest = relative_diff_array.indexOf(smallest_difference);
@@ -98,15 +104,8 @@ function up(index_val) {
   // * setting lift's state to be unavailable (temporarily).
   state[`lift_${closest}`].available = false;
 
-  document.getElementById(`floor_btn_up_${index_val}`).style.filter =
-    "invert(12%) sepia(98%) saturate(5264%) hue-rotate(5deg) brightness(114%) contrast(125%)";
-
-  console.log(state);
-
   // // * how much to move.
   const move = screen_size / Number(floors_inp.value);
-
-  console.log("move", move);
 
   // * how much to move according to the lift button pressed.
   const how_much_move = `${move * (index_val - 1)}`;
@@ -115,25 +114,38 @@ function up(index_val) {
   setTimeout(() => {
     document.getElementById(`lift_${closest}`).children[0].style.width = "35%";
     document.getElementById(`lift_${closest}`).children[1].style.width = "35%";
+
+    // * removing the glow-up from the button.
+    document
+      .getElementById(`floor_btn_up_${index_val}`)
+      .style.removeProperty("filter");
   }, timeout * 1000);
 
   // * function determining after how long should the lift doors close.
   setTimeout(() => {
+    // * closing doors.
     document.getElementById(`lift_${closest}`).children[1].style.width = "0%";
     document.getElementById(`lift_${closest}`).children[0].style.width = "0%";
 
     // * changing the state of the lift to available as the doors are succesfully closed
     state[`lift_${closest}`].available = true;
 
-    document
-      .getElementById(`floor_btn_up_${index_val}`)
-      .style.removeProperty("filter");
-  }, timeout * 1000 + 2.5 * 1000);
+    // * checking if a lifts is called on any floor.
+    Object.keys(floor_state).forEach((i) => {
+      if (floor_state[i].needed == true && floor_state[i].direction == "up") {
+        up(floor_state[i].value);
+      } else if (
+        floor_state[i].needed == true &&
+        floor_state[i].direction == "down"
+      ) {
+        down(floor_state[i].value);
+      }
+      return;
+    });
+  }, timeout * 1000 + 3500);
 
   // * code responsible for moving the nearest lift.
   document.getElementById(`lift_${closest}`).style.top = `-${how_much_move}px`;
-
-  console.log(state);
 
   // * code which sets the speed of lift.
   document.getElementById(
@@ -143,16 +155,26 @@ function up(index_val) {
 
 // // DOWN Function.
 function down(index_val) {
-  // console.log("down", index);
+  document.getElementById(`floor_btn_down_${index_val}`).style.filter =
+    "invert(12%) sepia(98%) saturate(5264%) hue-rotate(5deg) brightness(114%) contrast(125%)";
+
+  floor_state[`floor_${index_val}`].needed = false;
+  floor_state[`floor_${index_val}`].direction = "";
 
   // * size of the div with all the floors.
   const screen_size = main.offsetHeight;
 
   manage_lifts(state, index_val);
 
-  console.log("Values after removing input", relative_diff_array);
+  // console.log("Values after removing input", relative_diff_array);
 
   if (is_vacant() === 1) {
+    floor_state[`floor_${index_val}`] = {
+      needed: true,
+      value: index_val,
+      direction: "down",
+    };
+
     return;
   }
 
@@ -164,7 +186,6 @@ function down(index_val) {
 
   // * modifying the lift's state with the lift with smallest difference btween itself and floor.
   state[`lift_${closest}`].value = index_val;
-  console.log(state);
 
   // * how much to move.
   const move = screen_size / Number(floors_inp.value);
@@ -177,15 +198,17 @@ function down(index_val) {
 
   // * modifying the lift's state with the lift with smallest difference btween itself and floor.
   state[`lift_${closest}`].value = index_val;
-  state[`lift_${closest}`].available = false;
 
-  document.getElementById(`floor_btn_down_${index_val}`).style.filter =
-    "invert(12%) sepia(98%) saturate(5264%) hue-rotate(5deg) brightness(114%) contrast(125%)";
+  state[`lift_${closest}`].available = false;
 
   // * function determining after how long should the lift doors open.
   setTimeout(() => {
     document.getElementById(`lift_${closest}`).children[0].style.width = "35%";
     document.getElementById(`lift_${closest}`).children[1].style.width = "35%";
+
+    document
+      .getElementById(`floor_btn_down_${index_val}`)
+      .style.removeProperty("filter");
   }, timeout * 1000);
 
   // * function determining after how long should the lift doors close.
@@ -194,11 +217,20 @@ function down(index_val) {
     document.getElementById(`lift_${closest}`).children[1].style.width = "0%";
 
     state[`lift_${closest}`].available = true;
+    // console.log("Values after removing input", relative_diff_array);
 
-    document
-      .getElementById(`floor_btn_down_${index_val}`)
-      .style.removeProperty("filter");
-  }, timeout * 1000 + 2.5 * 1000);
+    Object.keys(floor_state).forEach((i) => {
+      if (floor_state[i].needed == true && floor_state[i].direction == "down") {
+        down(floor_state[i].value);
+      } else if (
+        floor_state[i].needed == true &&
+        floor_state[i].direction == "up"
+      ) {
+        up(floor_state[i].value);
+      }
+      return;
+    });
+  }, timeout * 1000 + 3500);
 
   // * code which sets the speed of lift.
   document.getElementById(
@@ -207,8 +239,6 @@ function down(index_val) {
 
   // * code responsible for moving the nearest lift.
   document.getElementById(`lift_${closest}`).style.top = `-${how_much_move}px`;
-
-  console.log(move);
 }
 
 // // Event listener for "Generate" button
@@ -225,10 +255,6 @@ generate_btn.addEventListener("click", () => {
     relative_diff_array.push(0);
   }
 
-  console.log(state);
-
-  console.log(lift_value);
-
   // * removing input dialogue box once user enters floor and lift values.
   if (floors_inp.value && lift_inp.value != "") {
     inp_dialogue.style.display = "none";
@@ -238,6 +264,15 @@ generate_btn.addEventListener("click", () => {
 
   let new_floors = "";
   let new_lifts = "";
+
+  // * generating floor's state.
+  for (let index = 1; index <= floor_value; index++) {
+    floor_state[`floor_${index}`] = {
+      needed: false,
+      value: Number(index),
+      direction: "",
+    };
+  }
 
   // * dynamically generating floors based on user input
   for (let index = floor_value; index > 0; index--) {
