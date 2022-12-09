@@ -244,6 +244,7 @@ function down(index_val) {
 // // Event listener for "Generate" button
 generate_btn.addEventListener("click", () => {
   floors_inp.inputmode = "none";
+  floors_inp.inputmode = "none";
 
   // * Fetching no. of floors from user.
   const floor_value = floors_inp.value;
