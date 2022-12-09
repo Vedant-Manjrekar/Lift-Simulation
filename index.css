@@ -225,4 +225,9 @@
     width: 5vw;
     height: 5vw;
   }
+
+  .input_dialogue {
+    height: -webkit-fill-available;
+    margin: 0 2rem;
+  }
 }
