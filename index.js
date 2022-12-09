@@ -337,9 +337,9 @@ generate_btn.addEventListener("click", () => {
   // * removing up button for last floor.
   last_floor_up_btn.style.display = "none";
 
-  console.log(main);
-  console.log(lift_box);
-  console.log(`${main.offsetHeight}px`);
+  // console.log(main);
+  // console.log(lift_box);
+  // console.log(`${main.offsetHeight}px`);
 
   // * setting width of div which contains all the lifts.
   lift_box.style.width = `${main.offsetWidth}px`;
@@ -350,6 +350,9 @@ generate_btn.addEventListener("click", () => {
   // * targeting "main" div which rendered initially.
   const old_lift_box = document.getElementById("main").children[1];
 
+  setTimeout(() => {
+    main.replaceChild(lift_box, old_lift_box);
+  }, 100);
+
   // * replaces old lift_box with the new one (lift box with updated styles), as the new one does not rendering in the DOM.
-  main.replaceChild(lift_box, old_lift_box);
 });
