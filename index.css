@@ -201,8 +201,6 @@
   background-color: transparent;
   border: none;
   transition: 0.1s ease-in-out;
-  /* border: 0.8px solid black; */
-  /* border-radius: 12%; */
 }
 
 @media (min-width: 0px) and (max-width: 780px) {

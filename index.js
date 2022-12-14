@@ -113,8 +113,8 @@ function up(index_val) {
 
   // * function determining after how long should the lift doors open.
   setTimeout(() => {
-    document.getElementById(`lift_${closest}`).children[0].style.width = "35%";
-    document.getElementById(`lift_${closest}`).children[1].style.width = "35%";
+    document.getElementById(`lift_${closest}`).children[0].style.width = "27px";
+    document.getElementById(`lift_${closest}`).children[1].style.width = "27px";
 
     // * removing the glow-up from the button.
     document
@@ -206,8 +206,8 @@ function down(index_val) {
 
   // * function determining after how long should the lift doors open.
   setTimeout(() => {
-    document.getElementById(`lift_${closest}`).children[0].style.width = "35%";
-    document.getElementById(`lift_${closest}`).children[1].style.width = "35%";
+    document.getElementById(`lift_${closest}`).children[0].style.width = "27px";
+    document.getElementById(`lift_${closest}`).children[1].style.width = "27px";
 
     document
       .getElementById(`floor_btn_down_${index_val}`)
