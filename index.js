@@ -7,6 +7,7 @@ const lift_box = document.getElementById("lift_boxs");
 const lift_box2 = document.getElementById("lift_boxs");
 const steel_wall = document.getElementById("steel_wall");
 const floor_ = document.getElementById("floor_body");
+const floor1 = document.getElementById("floor_1");
 const door = document.getElementById("door");
 
 // // Lift's state.
@@ -252,7 +253,7 @@ const resizeObserver = new ResizeObserver((entry) => {
   lift_box.style.height = `${Math.round(entry[0].contentRect.height)}px`;
 
   // // * setting width of div which contains all the lifts.
-  lift_box.style.width = `${entry[0].contentRect.width}px`;
+  lift_box.style.width = `90vw`;
 });
 
 resizeObserver.observe(main);
@@ -264,6 +265,17 @@ function generate() {
   // * Fetching no. of floors from user.
   const floor_value = floors_inp.value;
   const lift_value = lift_inp.value;
+
+  if (lift_value > 3 && main.offsetWidth <= 400) {
+    alert("Cannot call more than 3 lifts in this screen width.");
+    return;
+  } else if (lift_value > 4 && main.offsetWidth <= 550) {
+    alert("Cannot call more than 4 lifts in this screen width.");
+    return;
+  } else if (lift_value > 5 && main.offsetWidth <= 680) {
+    alert("Cannot call more than 5 lifts in this screen width.");
+    return;
+  }
 
   // * Initialising all the lifts in lift state as 1.
   for (let index = 0; index < lift_value; index++) {
